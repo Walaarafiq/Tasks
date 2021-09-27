@@ -11,7 +11,7 @@ class Park extends Details{
 		this.area = area;
 	}
 	treeDensity(){
-		const tree_den = treenum/area;
+		const tree_den = this.treenum/this.area;
 		console.log("The "+this.name+" has a tree density of "+tree_den+" per squares");
 	}
 } 
@@ -30,15 +30,26 @@ class Street extends Details{
 		console.log('${this.name} was built in ${this.year} , with type ${this.size}.');
 	}
 }
+const currentDate = new Date().getFullYear();
+const parks_group = [new Park('national', 2017, 499 , 0.2), new Park('Green', 1999, 1000 , 0.2)
+,new Park('Oak', 2021, 195 , 0.2) ,new Park('private', 1960, 300 , 0.2)]; //add objects of class Park
 
-function report(){
-	console.log("------ Report for Street -------");
-	console.log("our 3 parks have an average" );
+function report(park){
+	console.log("------ Report for Park -------");
+	
+	average_age(parks_group);
+	console.log("our 3 parks have an average "+avg);
+	park.forEach( p => p.treeDensity());
+ 
+	const x = park.map(d => d.treenum).findIndex( d => d >= 1000);
+	console.log(park[x].name + " has more than or equal 1000 trees.")
 }
-
-
-
-
+function average_age (park){
+	let avgg = park.forEach(p => currentDate - p.year);
+	let sum = avgg/3;
+	console.log(sum);
+}
+report(parks_group); // send a paramete (object) to the function and then call methods like treeDensity and average
 
 // class Park{
 // 	constructor(name,year){
@@ -113,7 +124,5 @@ function report(){
 //        }
 //        console.log(maxTT);
        
-// }
+//findAvg.addEventListener('click',adding);addbtn.addEventListener('click',adding); }
 
-findAvg.addEventListener('click',avg_town);
-addbtn.addEventListener('click',adding);
