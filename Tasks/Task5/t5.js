@@ -16,30 +16,33 @@ class Park extends Details{
 	}
 } 
 class Street extends Details{
-	constructor(name, year){
+	constructor(name, year,length,size){
+		super(name, year);
+		this.length = length;
 		this.size = size;
 	}
 	type_of_street(){
-		let typeSt = new Array();
+		let typeSt = new Array(); /** array or map **/
 		typeSt[0]='Tiny';
 		typeSt[1]='small';
 		typeSt[2]='medium';
 		typeSt[3]='large';
 		typeSt[4]='huge';
-
-		console.log('${this.name} was built in ${this.year} , with type ${this.size}.');
+		console.log(this.name+' was built in '+this.year+', with type '+this.size);
 	}
 }
 const currentDate = new Date().getFullYear();
 const parks_group = [new Park('national', 2017, 499 , 0.2), new Park('Green', 1999, 1000 , 0.2)
 ,new Park('Oak', 2021, 195 , 0.2) ,new Park('private', 1960, 300 , 0.2)]; //add objects of class Park
+const streets_group = [new Street("ocean",2018,1.0,5), new Street("hindi",2000,2.4,3)];
 
 function report(park){
 	console.log("------ Report for Park -------");
-	
-	average_age(parks_group);
-	console.log("our 3 parks have an average "+avg);
-	park.forEach( p => p.treeDensity());
+	/**average_age(parks_group);**/
+	let ages = park.map(pr => currentDate - pr.year)
+	const [totalLength, avgLength] = total_length(ages);
+	console.log("our 3 parks have an average "+avgLength);
+	park.forEach( p => p.treeDensity()); /**for alll**/
  
 	const x = park.map(d => d.treenum).findIndex( d => d >= 1000);
 	console.log(park[x].name + " has more than or equal 1000 trees.")
@@ -49,8 +52,24 @@ function average_age (park){
 	let sum = avgg/3;
 	console.log(sum);
 }
-report(parks_group); // send a paramete (object) to the function and then call methods like treeDensity and average
 
+function reportStreet(street) {
+  console.log('------- street report -------');
+  const [totalLength, avgLength] = total_length(street.map(st => st.length));
+  
+  console.log('Our '+street.length+' streets ,have a total length of '+totalLength+' ,with an average of '+avgLength);
+  street.forEach(z => z.type_of_street());
+}
+
+function total_length (str){
+	const total = str.reduce((prev, cur, index) => prev + cur, 0);
+ 	 return [total, total / str.length];
+
+}
+report(parks_group); // send a paramete (object) to the function and then call methods like treeDensity and average
+reportStreet(streets_group);
+
+/**هادا الكود بختلف بانه بياخد القيم ك انبوت من اليوزر */
 // class Park{
 // 	constructor(name,year){
 // 		this.name = name;
